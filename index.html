@@ -1,0 +1,2046 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Benahin Diri - Pelan-pelan Menjadi Versi Diri Yang Lebih Baik</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js for Radar and Weekly Progress -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            base: '#070B09',
+                            primary: '#39B37D',
+                            secondary: '#5AC08D',
+                            accent: '#D9B77C',
+                            textSecondary: '#B3B8B6',
+                            success: '#42D392',
+                            error: '#FF6B6B'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Poppins', 'sans-serif'],
+                        ai: ['DM Sans', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500;600&family=Poppins:wght@400;500;600;700&display=swap');
+
+        body {
+            background-color: #070B09;
+            font-family: 'Inter', sans-serif;
+            color: #FFFFFF;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at top right, rgba(55, 120, 90, 0.25), transparent 50%),
+                linear-gradient(180deg, #07100D 0%, #0D1815 40%, #13221C 100%);
+            background-attachment: fixed;
+        }
+
+        /* Ambient glowing background nodes with breathing floating motion */
+        .ambient-glow-1 {
+            position: fixed;
+            top: 15%;
+            right: -10%;
+            width: 450px;
+            height: 450px;
+            border-radius: 50%;
+            background: rgba(57, 179, 125, 0.12);
+            filter: blur(100px);
+            z-index: -1;
+            animation: floatGlow 22s ease-in-out infinite alternate;
+        }
+
+        .ambient-glow-2 {
+            position: fixed;
+            bottom: 5%;
+            left: -10%;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: rgba(217, 183, 124, 0.05);
+            filter: blur(120px);
+            z-index: -1;
+            animation: floatGlow 28s ease-in-out infinite alternate-reverse;
+        }
+
+        @keyframes floatGlow {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(40px, -60px) scale(1.1); }
+            100% { transform: translate(-20px, 40px) scale(0.9); }
+        }
+
+        /* Glassmorphism Card Style */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 28px;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card-interactive:hover {
+            transform: translateY(-4px) scale(1.01);
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(57, 179, 125, 0.3);
+            box-shadow: 0 12px 45px rgba(57, 179, 125, 0.15);
+        }
+
+        /* Input Glass style */
+        .glass-input {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            color: #FFFFFF;
+            transition: all 0.3s;
+        }
+
+        .glass-input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.06);
+            border-color: #39B37D;
+            box-shadow: 0 0 15px rgba(57, 179, 125, 0.15);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.02);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(57, 179, 125, 0.2);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(57, 179, 125, 0.4);
+        }
+
+        /* Habit item check scaling */
+        .habit-checkbox:checked + .habit-label {
+            color: #5AC08D;
+            text-decoration: line-through;
+            opacity: 0.75;
+        }
+
+        .habit-container {
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .habit-container.checked {
+            transform: scale(1.02);
+            border-color: rgba(57, 179, 125, 0.4);
+            box-shadow: 0 0 20px rgba(57, 179, 125, 0.15);
+        }
+
+        /* Premium slider accent */
+        input[type="range"]::-webkit-slider-thumb {
+            background: #39B37D;
+            box-shadow: 0 0 10px rgba(57, 179, 125, 0.6);
+            cursor: pointer;
+        }
+
+        /* Navigation indicator highlight */
+        .active-nav {
+            color: #39B37D !important;
+            filter: drop-shadow(0 0 8px rgba(57, 179, 125, 0.4));
+        }
+
+        /* Floating typing helper cursor */
+        .ai-cursor::after {
+            content: '|';
+            animation: blink 1s step-start infinite;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-start p-0 m-0">
+
+    <div class="ambient-glow-1"></div>
+    <div class="ambient-glow-2"></div>
+
+    <main class="w-full min-h-screen flex flex-col justify-between relative px-4 py-6 md:px-8 md:py-10 z-10">
+
+        <!-- Custom Notification Alert Modal -->
+        <div id="notification-modal" class="fixed top-6 left-1/2 -translate-x-1/2 w-11/12 max-w-sm glass-card p-4 hidden z-50 flex items-start gap-3 border-l-4 border-l-brand-primary">
+            <div class="text-brand-primary mt-1">
+                <i class="fas fa-bell animate-bounce"></i>
+            </div>
+            <div class="flex-1">
+                <h4 class="font-heading font-semibold text-xs text-brand-primary" id="notif-title">PEMBERITAHUAN</h4>
+                <p class="text-xs text-gray-200 mt-1" id="notif-message">Selamat malam! Saatnya menulis refleksi harianmu.</p>
+            </div>
+            <button onclick="closeNotification()" class="text-brand-textSecondary hover:text-white transition">
+                <i class="fas fa-times text-sm"></i>
+            </button>
+        </div>
+
+        <!-- Simulated OS Notification Center -->
+        <div id="os-notif" class="hidden max-w-md mx-auto w-full glass-card p-3 border-brand-accent/40 border mb-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-2 h-2 rounded-full bg-brand-accent animate-ping"></div>
+                <div class="text-[11px] text-gray-300">
+                    <span class="font-semibold text-brand-accent" id="os-notif-time">20:30</span> — <span id="os-notif-body">Ingat isi progres habit hari ini.</span>
+                </div>
+            </div>
+            <button onclick="dismissOSNotif()" class="text-[10px] text-brand-textSecondary hover:text-white">Lewati</button>
+        </div>
+
+        <!-- PAGE 1: LOGIN PAGE (Direct Landing) -->
+        <section id="page-login" class="app-page flex-1 flex flex-col justify-center max-w-md w-full mx-auto">
+            <!-- Branding Header inside login screen -->
+            <div class="text-center mb-8 flex flex-col items-center">
+                <!-- SVG Logo Minimal & Calm -->
+                <div class="w-20 h-20 mb-4 relative">
+                    <div class="absolute inset-0 bg-brand-primary/10 rounded-full blur-xl animate-pulse"></div>
+                    <svg viewBox="0 0 100 100" class="w-full h-full text-brand-primary">
+                        <circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" stroke-width="4" stroke-dasharray="10 4 20 4" />
+                        <circle cx="50" cy="50" r="24" fill="none" stroke="#D9B77C" stroke-width="3" />
+                        <path d="M50 35 L50 50 L60 60" stroke="currentColor" stroke-width="4" stroke-linecap="round" fill="none" />
+                        <circle cx="50" cy="50" r="4" fill="#39B37D" />
+                    </svg>
+                </div>
+                <h1 class="text-3xl font-heading font-semibold tracking-wide text-white">BENAHIN DIRI</h1>
+                <p class="text-xs text-brand-textSecondary italic mt-2 max-w-xs font-ai px-4 leading-relaxed">
+                    "Pelan-pelan menjadi versi diri yang lebih baik."
+                </p>
+            </div>
+            
+            <div class="glass-card p-6 w-full">
+                <div class="text-center mb-6">
+                    <h2 class="text-lg font-heading font-semibold text-white">Masuk Program</h2>
+                    <p class="text-xs text-brand-textSecondary mt-1">Gunakan kode akses resmi Anda untuk masuk.</p>
+                </div>
+
+                <form onsubmit="handleLogin(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-medium text-brand-textSecondary mb-2">Nama Lengkap</label>
+                        <input type="text" id="login-fullname" required placeholder="Contoh: Budi Pratama" class="w-full p-4 glass-input text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-brand-textSecondary mb-2">Email</label>
+                        <input type="email" id="login-email" required placeholder="nama@email.com" class="w-full p-4 glass-input text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-brand-textSecondary mb-2">Kode Akses</label>
+                        <div class="relative">
+                            <input type="password" id="login-accesscode" required placeholder="••••••••" class="w-full p-4 pr-12 glass-input text-sm">
+                            <button type="button" onclick="toggleAccessCodeVisibility()" class="absolute right-4 top-1/2 -translate-y-1/2 text-brand-textSecondary hover:text-white focus:outline-none">
+                                <i id="toggle-eye-icon" class="fas fa-eye-slash"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full py-4 mt-4 bg-brand-primary hover:bg-brand-secondary text-brand-base font-semibold rounded-2xl transition transform active:scale-95 shadow-lg shadow-brand-primary/20">
+                        Masuk Ke Program
+                    </button>
+                </form>
+
+                <div class="text-center mt-6">
+                    <p class="text-xs text-brand-textSecondary/80 italic font-ai">
+                        "Setiap langkah kecil sangat berarti. Selamat melanjutkan perjalanan baikmu."
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE: ADMIN CONTROL CENTER (Marketing Leads Only - No Gimmicks) -->
+        <section id="page-admin" class="app-page flex-1 flex flex-col justify-between py-2 hidden max-w-7xl w-full mx-auto">
+            <div class="flex-1 flex flex-col gap-6">
+                <!-- Admin Header -->
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-white/5">
+                    <div>
+                        <span class="text-[10px] text-brand-accent font-semibold tracking-widest uppercase bg-brand-accent/10 px-2.5 py-1 rounded border border-brand-accent/25">REAL-TIME MARKETING CONTROL CENTER</span>
+                        <h2 class="text-2xl font-heading font-semibold text-white mt-2">Dasbor Pengelola Prospek</h2>
+                    </div>
+                    <button onclick="handleLogout()" class="self-start md:self-auto px-4 py-2.5 bg-white/5 hover:bg-brand-error/20 border border-white/5 rounded-xl text-brand-textSecondary hover:text-brand-error transition flex items-center gap-2">
+                        <i class="fas fa-sign-out-alt"></i> Keluar Admin
+                    </button>
+                </div>
+
+                <!-- Main Desktop Grid: Split Left / Right Column -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                    
+                    <!-- Left: Metrics and Chart (5 cols) -->
+                    <div class="lg:col-span-5 space-y-6">
+                        <!-- Leads Analytics Summary -->
+                        <div class="grid grid-cols-3 gap-3">
+                            <div class="glass-card p-4 text-center border-l-4 border-l-brand-primary">
+                                <span class="text-2xl font-heading font-bold text-white block" id="admin-total-leads">0</span>
+                                <span class="text-[10px] text-brand-textSecondary block mt-1">Total Leads</span>
+                            </div>
+                            <div class="glass-card p-4 text-center border-l-4 border-l-brand-accent">
+                                <span class="text-2xl font-heading font-bold text-white block" id="admin-conversion-rate">0%</span>
+                                <span class="text-[10px] text-brand-textSecondary block mt-1">Konversi</span>
+                            </div>
+                            <div class="glass-card p-4 text-center border-l-4 border-l-brand-secondary">
+                                <span class="text-2xl font-heading font-bold text-white block" id="admin-pending-leads">0</span>
+                                <span class="text-[10px] text-brand-textSecondary block mt-1">Baru</span>
+                            </div>
+                        </div>
+
+                        <!-- Acquisition Channels Doughnut Chart -->
+                        <div class="glass-card p-5 border border-white/5">
+                            <span class="text-xs text-brand-primary font-semibold uppercase tracking-wider block mb-3">Saluran Akuisisi Leads</span>
+                            <div class="h-[180px] relative flex justify-center items-center">
+                                <canvas id="leadsAcquisitionChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Live Leads Database (7 cols) -->
+                    <div class="lg:col-span-7 glass-card p-6 border border-white/5 flex flex-col min-h-[500px]">
+                        <div class="flex justify-between items-center mb-4">
+                            <div class="flex items-center gap-2">
+                                <h4 class="text-sm font-semibold text-brand-primary uppercase tracking-wide">Database Leads Real-Time</h4>
+                                <span class="px-2 py-0.5 rounded bg-brand-primary/10 text-brand-primary text-[10px] font-semibold animate-pulse">LIVE</span>
+                            </div>
+                            <span class="text-[11px] text-brand-textSecondary">Total: <span id="leads-count-badge" class="text-white font-semibold">0</span> data</span>
+                        </div>
+
+                        <!-- Search and Status Filters -->
+                        <div class="space-y-3 mb-4">
+                            <input type="text" id="leads-search-input" onkeyup="filterAdminLeads()" placeholder="Cari nama atau email..." class="w-full px-4 py-3 text-xs glass-input">
+                            <div class="flex gap-1.5 overflow-x-auto pb-1">
+                                <button onclick="setLeadsFilter('All')" id="btn-filter-all" class="text-[10px] px-3 py-1.5 rounded-full bg-brand-primary/20 text-brand-primary border border-brand-primary/30 font-medium whitespace-nowrap">Semua</button>
+                                <button onclick="setLeadsFilter('New')" id="btn-filter-new" class="text-[10px] px-3 py-1.5 rounded-full bg-white/5 text-brand-textSecondary border border-white/5 font-medium whitespace-nowrap">Baru</button>
+                                <button onclick="setLeadsFilter('Contacted')" id="btn-filter-contacted" class="text-[10px] px-3 py-1.5 rounded-full bg-white/5 text-brand-textSecondary border border-white/5 font-medium whitespace-nowrap">Dihubungi</button>
+                                <button onclick="setLeadsFilter('Converted')" id="btn-filter-converted" class="text-[10px] px-3 py-1.5 rounded-full bg-white/5 text-brand-textSecondary border border-white/5 font-medium whitespace-nowrap">Terkonversi</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Leads List container -->
+                        <div class="space-y-3 max-h-[400px] overflow-y-auto pr-1 flex-1" id="admin-leads-container">
+                            <!-- Dynamic rendering of leads via JS -->
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE 3: ONBOARDING SCREEN -->
+        <section id="page-onboarding" class="app-page flex-1 flex flex-col justify-between py-4 hidden max-w-lg w-full mx-auto">
+            <!-- Screen 1: Welcome -->
+            <div id="onboarding-step-1" class="flex-1 flex flex-col justify-between min-h-[400px]">
+                <div class="my-auto text-center space-y-5">
+                    <div class="w-20 h-20 mx-auto bg-brand-primary/10 rounded-2xl flex items-center justify-center text-brand-primary text-3xl">
+                        <i class="fas fa-seedling"></i>
+                    </div>
+                    <h3 class="text-2xl font-heading font-semibold text-white">Selamat Datang</h3>
+                    <p class="text-sm text-brand-textSecondary max-w-sm mx-auto leading-relaxed">
+                        Mari mulai perjalanan benahin diri dengan kesadaran penuh. Sistem kami akan membantumu membangun rutinitas kecil secara bertahap.
+                    </p>
+                </div>
+                <button onclick="nextOnboardingStep(2)" class="w-full py-4 bg-brand-primary hover:bg-brand-secondary text-brand-base font-semibold rounded-2xl transition">Mulai</button>
+            </div>
+            
+            <!-- Screen 2: Focus Areas -->
+            <div id="onboarding-step-2" class="flex-1 flex flex-col justify-between hidden min-h-[450px]">
+                <div>
+                    <h3 class="text-xl font-heading font-semibold text-white text-center mb-1">Apa fokus utamamu?</h3>
+                    <p class="text-xs text-brand-textSecondary text-center mb-6">Pilih maksimal 2 bidang pengembangan diri.</p>
+                    
+                    <div class="grid grid-cols-2 gap-3 md:gap-4">
+                        <button id="focus-Disiplin" onclick="toggleOnboardingFocus('Disiplin')" class="p-5 glass-card border border-white/5 hover:border-brand-primary/40 text-center transition">
+                            <i class="fas fa-clock text-brand-primary mb-2 text-xl"></i>
+                            <span class="text-xs font-semibold block text-white">Disiplin</span>
+                        </button>
+                        <button id="focus-Ibadah" onclick="toggleOnboardingFocus('Ibadah')" class="p-5 glass-card border border-white/5 hover:border-brand-primary/40 text-center transition">
+                            <i class="fas fa-pray text-brand-accent mb-2 text-xl"></i>
+                            <span class="text-xs font-semibold block text-white">Ibadah</span>
+                        </button>
+                        <button id="focus-Produktivitas" onclick="toggleOnboardingFocus('Produktivitas')" class="p-5 glass-card border border-white/5 hover:border-brand-primary/40 text-center transition">
+                            <i class="fas fa-briefcase text-brand-secondary mb-2 text-xl"></i>
+                            <span class="text-xs font-semibold block text-white">Produktivitas</span>
+                        </button>
+                        <button id="focus-Kesehatan" onclick="toggleOnboardingFocus('Kesehatan')" class="p-5 glass-card border border-white/5 hover:border-brand-primary/40 text-center transition">
+                            <i class="fas fa-heartbeat text-brand-success mb-2 text-xl"></i>
+                            <span class="text-xs font-semibold block text-white">Kesehatan</span>
+                        </button>
+                        <button id="focus-Mental" onclick="toggleOnboardingFocus('Mental')" class="p-5 glass-card border border-white/5 hover:border-brand-primary/40 text-center transition">
+                            <i class="fas fa-spa text-brand-accent mb-2 text-xl"></i>
+                            <span class="text-xs font-semibold block text-white">Mental</span>
+                        </button>
+                        <button id="focus-Hubungan" onclick="toggleOnboardingFocus('Hubungan')" class="p-5 glass-card border border-white/5 hover:border-brand-primary/40 text-center transition">
+                            <i class="fas fa-users text-blue-400 mb-2 text-xl"></i>
+                            <span class="text-xs font-semibold block text-white">Hubungan</span>
+                        </button>
+                    </div>
+                </div>
+                <button onclick="submitOnboardingFocus()" class="w-full py-4 bg-brand-primary hover:bg-brand-secondary text-brand-base font-semibold rounded-2xl transition mt-6">Lanjut</button>
+            </div>
+            
+            <!-- Screen 3: Target -->
+            <div id="onboarding-step-3" class="flex-1 flex flex-col justify-between hidden min-h-[400px]">
+                <div class="my-auto space-y-4">
+                    <h3 class="text-xl font-heading font-semibold text-white text-center">Komitmen 30 Hari</h3>
+                    <p class="text-xs text-brand-textSecondary text-center leading-relaxed">Tuliskan target sederhana yang paling ingin kamu capai dalam program pengembangan 30 hari ini.</p>
+                    <textarea id="onboarding-goal-text" rows="4" placeholder="Contoh: Saya ingin merapikan jam tidur saya di bawah jam 22.30 dan lebih disiplin ibadah subuh tepat waktu..." class="w-full p-4 glass-input text-sm resize-none"></textarea>
+                </div>
+                <button onclick="submitOnboardingTarget()" class="w-full py-4 bg-brand-primary hover:bg-brand-secondary text-brand-base font-semibold rounded-2xl transition">Mulai Penilaian Diri</button>
+            </div>
+        </section>
+
+        <!-- PAGE 4: ASSESSMENT & RADAR -->
+        <section id="page-assessment" class="app-page flex-1 flex flex-col justify-between py-2 hidden max-w-2xl w-full mx-auto">
+            <div id="assessment-quiz" class="flex-1 flex flex-col justify-between min-h-[450px]">
+                <div class="text-center mb-4">
+                    <span id="assess-cat" class="text-[10px] text-brand-accent font-semibold tracking-wider uppercase bg-brand-accent/10 px-2.5 py-1 rounded">KATEGORI</span>
+                    <h2 class="text-xl font-heading font-semibold text-white mt-3">Penilaian Kesiapan Diri</h2>
+                    <span id="assess-progress" class="text-[10px] text-brand-textSecondary">Pertanyaan 1 dari 10</span>
+                    <div class="w-full bg-white/5 h-1.5 rounded-full mt-2 overflow-hidden">
+                        <div id="assess-bar" class="bg-brand-primary h-full transition-all duration-300" style="width: 10%"></div>
+                    </div>
+                </div>
+
+                <div class="my-auto text-center py-6 glass-card p-6 border border-white/5">
+                    <p id="assess-question-text" class="text-base text-gray-100 font-sans leading-relaxed px-4">Pertanyaan Anda akan muncul di sini.</p>
+                    
+                    <div class="mt-8 space-y-3 px-4 max-w-md mx-auto">
+                        <input type="range" id="assess-range" min="1" max="10" value="5" oninput="updateAssessScoreLabel(this.value)" class="w-full h-2 bg-white/10 rounded-lg appearance-none cursor-pointer accent-brand-primary">
+                        <div class="flex justify-between text-xs text-brand-textSecondary px-1">
+                            <span>1 (Buruk)</span>
+                            <span>10 (Luar Biasa)</span>
+                        </div>
+                        <div class="pt-4">
+                            <span id="assess-score-val" class="text-4xl font-heading font-bold text-brand-primary">5</span>
+                            <p id="assess-score-desc" class="text-xs text-brand-textSecondary mt-1">Sedang / Kadang-kadang</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex gap-4 mt-4">
+                    <button id="assess-prev-btn" onclick="prevAssessQuestion()" class="w-1/3 py-3.5 bg-white/5 border border-white/10 text-white font-medium rounded-xl text-xs hover:bg-white/10 transition">Kembali</button>
+                    <button onclick="nextAssessQuestion()" class="w-2/3 py-3.5 bg-brand-primary hover:bg-brand-secondary text-brand-base font-semibold rounded-xl text-xs transition">Lanjut</button>
+                </div>
+            </div>
+
+            <!-- Assessment Result Display -->
+            <div id="assessment-result" class="flex-1 flex flex-col justify-between hidden">
+                <div class="text-center mb-4">
+                    <span class="text-[10px] text-brand-primary font-semibold tracking-wider uppercase bg-brand-primary/10 px-2.5 py-1 rounded">HASIL ANALISIS KEPRIBADIAN</span>
+                    <h2 class="text-2xl font-heading font-semibold text-white mt-3">Profil Kesiapan Diri</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-auto">
+                    <!-- Radar Chart Container -->
+                    <div class="glass-card p-5 flex flex-col items-center justify-center">
+                        <div class="h-[220px] w-full relative">
+                            <canvas id="radarChart"></canvas>
+                        </div>
+                        <div class="mt-4 text-center">
+                            <span class="text-xs text-brand-textSecondary">Indeks Kesiapan Jiwa:</span>
+                            <span id="assess-final-score" class="text-base font-bold text-brand-accent ml-1">0/100</span>
+                        </div>
+                    </div>
+
+                    <!-- AI Insight Glass Card -->
+                    <div class="glass-card p-6 border border-brand-primary/10 flex flex-col justify-between">
+                        <div>
+                            <span class="text-xs font-heading font-semibold text-brand-primary uppercase tracking-wider block mb-3">💡 Analisis Awal AI</span>
+                            <p id="assess-ai-insight" class="text-sm text-gray-200 font-ai leading-relaxed italic whitespace-pre-line">
+                                Menganalisis skormu...
+                            </p>
+                        </div>
+                        <p class="text-[11px] text-brand-textSecondary mt-4">Analisis ini dihasilkan secara cerdas berdasarkan 10 pilar keselarasan harian Anda.</p>
+                    </div>
+                </div>
+
+                <button onclick="generateAIHabits()" class="w-full py-4 bg-brand-primary hover:bg-brand-secondary text-brand-base font-semibold rounded-2xl transition shadow-lg mt-6">
+                    Buat Habit Terbaik Saya
+                </button>
+            </div>
+        </section>
+
+        <!-- PAGE 5: AI HABIT GENERATOR -->
+        <section id="page-habit-generator" class="app-page flex-1 flex flex-col justify-between py-4 hidden max-w-xl w-full mx-auto">
+            <div class="text-center mb-6">
+                <h2 class="text-2xl font-heading font-semibold text-brand-primary">Jalur Kebiasaan Baru Anda</h2>
+                <p class="text-xs text-brand-textSecondary mt-2">Berdasarkan hasil asesmen kepribadian, AI mengonfigurasi 3 habit strategis berikut.</p>
+            </div>
+
+            <!-- Loading State Animation -->
+            <div class="my-auto space-y-4" id="ai-habit-loading-container">
+                <div class="glass-card p-8 text-center border-brand-primary/20 border flex flex-col items-center justify-center gap-4 my-12">
+                    <div class="relative w-16 h-16">
+                        <div class="absolute inset-0 rounded-full border-4 border-white/5"></div>
+                        <div class="absolute inset-0 rounded-full border-4 border-brand-primary border-t-transparent animate-spin"></div>
+                    </div>
+                    <p class="text-sm font-ai text-white italic" id="generator-status-text">
+                        Meramu kebiasaan minimalis agar tidak memicu stres mental...
+                    </p>
+                </div>
+            </div>
+
+            <!-- List of generated habits -->
+            <div class="my-auto space-y-4 hidden" id="ai-habits-list-container">
+                <div class="text-[11px] text-brand-textSecondary text-center mb-2 italic">Anda dapat merubah atau menambah kebiasaan ini kapan pun di menu Habit.</div>
+                
+                <div id="generated-habit-container-0" class="glass-card p-4 border-l-4 border-l-brand-primary flex gap-4 items-start">
+                    <div class="bg-brand-primary/10 p-3 rounded-xl text-brand-primary text-sm mt-0.5">
+                        <i class="fas fa-moon text-lg"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="text-sm font-semibold text-white" id="habit-gen-title-0">Tidur Sebelum Jam 22.30</h4>
+                        <p class="text-xs text-brand-textSecondary mt-1" id="habit-gen-desc-0">Menjaga siklus sirkadian untuk energi maksimal esok hari.</p>
+                    </div>
+                </div>
+
+                <div id="generated-habit-container-1" class="glass-card p-4 border-l-4 border-l-brand-accent flex gap-4 items-start">
+                    <div class="bg-brand-accent/10 p-3 rounded-xl text-brand-accent text-sm mt-0.5">
+                        <i class="fas fa-pray text-lg"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="text-sm font-semibold text-white" id="habit-gen-title-1">Sholat Tepat Waktu</h4>
+                        <p class="text-xs text-brand-textSecondary mt-1" id="habit-gen-desc-1">Membantu menenangkan fokus dan menjaga keselarasan hati.</p>
+                    </div>
+                </div>
+
+                <div id="generated-habit-container-2" class="glass-card p-4 border-l-4 border-l-brand-secondary flex gap-4 items-start">
+                    <div class="bg-brand-secondary/10 p-3 rounded-xl text-brand-secondary text-sm mt-0.5">
+                        <i class="fas fa-ban text-lg"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="text-sm font-semibold text-white" id="habit-gen-title-2">Kurangi Scroll Media Sosial</h4>
+                        <p class="text-xs text-brand-textSecondary mt-1" id="habit-gen-desc-2">Maksimal 15 menit scroll setelah jam 20.00 malam.</p>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="acceptAIHabitsAndGoToDashboard()" id="btn-accept-habits" class="w-full py-4 bg-brand-primary hover:bg-brand-secondary text-brand-base font-semibold rounded-2xl transition shadow-lg mt-6 opacity-50" disabled>
+                Mulai Hari Pertama
+            </button>
+        </section>
+
+        <!-- PAGE 6: USER DASHBOARD -->
+        <section id="page-dashboard" class="app-page flex-1 flex flex-col justify-between py-2 hidden max-w-7xl w-full mx-auto">
+            
+            <!-- Hero Header block -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+                <div>
+                    <span class="text-xs text-brand-textSecondary block">Selamat Datang kembali,</span>
+                    <h2 class="text-2xl font-heading font-semibold text-white" id="dash-user-name">Budi Pratama</h2>
+                </div>
+                <div class="self-start sm:self-auto flex items-center gap-2">
+                    <span class="text-xs text-brand-accent font-semibold flex items-center gap-1.5 bg-brand-accent/5 px-3.5 py-1.5 rounded-full border border-brand-accent/20">
+                        <i class="fas fa-fire"></i> Streak <span id="dash-streak">0</span> Hari
+                    </span>
+                    <span class="text-xs text-brand-primary font-semibold flex items-center gap-1.5 bg-brand-primary/5 px-3.5 py-1.5 rounded-full border border-brand-primary/20">
+                        Hari Ke-<span id="dash-day-num">1</span>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Desktop Split Layout (3 Columns on Laptops, 1 Column on Mobile) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
+                
+                <!-- Col 1: Progress Ring & Motivation -->
+                <div class="space-y-6">
+                    <div class="glass-card p-6 border-l-4 border-l-brand-primary flex flex-col justify-between h-full min-h-[220px]">
+                        <div>
+                            <span class="text-xs text-brand-textSecondary block">Progress Target Hari Ini</span>
+                            <span class="text-3xl font-heading font-bold text-white mt-1 block" id="dash-percentage-text">0% Selesai</span>
+                        </div>
+                        
+                        <div class="flex items-center gap-5 mt-4">
+                            <!-- Animated Progress Ring SVG -->
+                            <div class="relative w-16 h-16 flex-shrink-0">
+                                <svg class="w-full h-full transform -rotate-90">
+                                    <circle cx="32" cy="32" r="26" stroke="rgba(255,255,255,0.05)" stroke-width="5" fill="transparent" />
+                                    <circle cx="32" cy="32" r="26" stroke="#39B37D" stroke-width="5" fill="transparent" stroke-dasharray="163" stroke-dashoffset="163" id="progress-circle-svg" style="transition: stroke-dashoffset 0.4s ease;" />
+                                </svg>
+                                <span class="absolute inset-0 flex items-center justify-center text-[10px] font-semibold text-brand-primary" id="dash-ring-percent">0%</span>
+                            </div>
+                            <p class="text-[11px] text-brand-textSecondary font-ai italic leading-relaxed" id="dash-motivation">
+                                "Satu langkah kecil yang konsisten lebih berharga dari lompatan besar yang hanya sekali."
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- AI Daily Tip -->
+                    <div class="glass-card p-5 border border-brand-primary/10 relative overflow-hidden">
+                        <div class="absolute right-3 top-3 text-brand-primary/10 text-4xl">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <h4 class="text-[10px] font-heading font-semibold text-brand-primary tracking-wider uppercase mb-2">💡 Tips AI Benahin Diri</h4>
+                        <p class="text-xs text-gray-200 font-ai italic leading-relaxed" id="dash-ai-tips-text">
+                            Lakukan habit paling ringan terlebih dahulu pagi ini untuk memicu produktivitas positif seharian.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Col 2: Habits Checklist -->
+                <div class="glass-card p-6 border border-white/5 lg:col-span-1 min-h-[260px]">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xs font-heading font-semibold text-brand-primary uppercase tracking-wider">Habit Hari Ini</h3>
+                        <button onclick="navigateTo('habit')" class="text-xs text-brand-textSecondary hover:text-white transition">Edit List <i class="fas fa-chevron-right text-[10px]"></i></button>
+                    </div>
+
+                    <!-- Habits List Container -->
+                    <div id="dash-habit-list" class="space-y-3">
+                        <!-- Dynamic rendering happens here -->
+                    </div>
+                </div>
+
+                <!-- Col 3: Reflection & Mood (Wide screens) -->
+                <div class="glass-card p-6 border border-brand-accent/10 space-y-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-brand-accent/10 flex items-center justify-center text-brand-accent">
+                            <i class="fas fa-pen-fancy"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs font-semibold block text-white">Bagaimana perasaanmu?</span>
+                            <span class="text-[10px] text-brand-textSecondary">Sempatkan mengulas harimu malam ini.</span>
+                        </div>
+                    </div>
+                    
+                    <div class="pt-2">
+                        <p class="text-xs text-brand-textSecondary mb-3">Tentukan evaluasimu untuk hari ini:</p>
+                        <button onclick="navigateTo('reflection')" class="w-full py-3 bg-brand-accent/20 hover:bg-brand-accent/30 text-brand-accent text-xs font-bold rounded-xl transition flex items-center justify-center gap-2">
+                            <i class="fas fa-book-open"></i> Isi Jurnal Refleksi
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- PAGE 7: HABIT MANAGEMENT -->
+        <section id="page-habit" class="app-page flex-1 flex flex-col justify-between py-2 hidden max-w-2xl w-full mx-auto">
+            <div class="flex justify-between items-center mb-5">
+                <h2 class="text-xl font-heading font-semibold text-white">Kelola Kebiasaan</h2>
+                <button onclick="openAddHabitModal()" class="py-2 px-4 bg-brand-primary/10 hover:bg-brand-primary/20 border border-brand-primary/30 text-brand-primary text-xs font-semibold rounded-full flex items-center gap-1 transition">
+                    <i class="fas fa-plus text-[10px]"></i> Tambah Baru
+                </button>
+            </div>
+
+            <!-- Habit List -->
+            <div id="habit-management-list" class="space-y-4 flex-1 overflow-y-auto pr-1 max-h-[380px] pb-6">
+                <!-- Dynamically rendered checklist items -->
+            </div>
+
+            <div class="pt-4">
+                <button onclick="saveHabitChanges()" class="w-full py-4 bg-brand-primary hover:bg-brand-secondary text-brand-base font-semibold rounded-2xl transition shadow-lg">
+                    Simpan Perubahan
+                </button>
+            </div>
+
+            <!-- Custom Modal: Create / Edit Habit -->
+            <div id="habit-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+                <div class="w-full max-w-sm glass-card p-6 border-brand-primary/30 border">
+                    <h3 class="text-lg font-heading font-semibold text-white mb-4" id="habit-modal-title">Tambah Kebiasaan Baru</h3>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-medium text-brand-textSecondary mb-1">Nama Kebiasaan</label>
+                            <input type="text" id="habit-form-title" placeholder="Contoh: Baca Buku 10 Halaman" class="w-full p-3 glass-input text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-brand-textSecondary mb-1">Deskripsi Singkat</label>
+                            <input type="text" id="habit-form-desc" placeholder="Contoh: Supaya wawasan lebih luas" class="w-full p-3 glass-input text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-brand-textSecondary mb-1">Pilih Ikon Kebiasaan</label>
+                            <div class="grid grid-cols-5 gap-2 mt-1">
+                                <button onclick="selectFormIcon('pray')" id="icon-pray" class="icon-opt-btn p-2 rounded-xl border border-white/5 bg-white/5 hover:bg-white/10 text-white text-sm"><i class="fas fa-pray"></i></button>
+                                <button onclick="selectFormIcon('moon')" id="icon-moon" class="icon-opt-btn p-2 rounded-xl border border-white/5 bg-white/5 hover:bg-white/10 text-white text-sm"><i class="fas fa-moon"></i></button>
+                                <button onclick="selectFormIcon('book')" id="icon-book" class="icon-opt-btn p-2 rounded-xl border border-white/5 bg-white/5 hover:bg-white/10 text-white text-sm"><i class="fas fa-book"></i></button>
+                                <button onclick="selectFormIcon('heartbeat')" id="icon-heartbeat" class="icon-opt-btn p-2 rounded-xl border border-white/5 bg-white/5 hover:bg-white/10 text-white text-sm"><i class="fas fa-heartbeat"></i></button>
+                                <button onclick="selectFormIcon('ban')" id="icon-ban" class="icon-opt-btn p-2 rounded-xl border border-white/5 bg-white/5 hover:bg-white/10 text-white text-sm"><i class="fas fa-ban"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-3 mt-6">
+                        <button onclick="closeHabitModal()" class="w-1/2 py-2.5 bg-white/5 border border-white/10 text-white font-medium rounded-xl text-xs hover:bg-white/10 transition">Batal</button>
+                        <button onclick="submitHabitForm()" class="w-1/2 py-2.5 bg-brand-primary hover:bg-brand-secondary text-brand-base font-semibold rounded-xl text-xs transition">Simpan</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE 8: DAILY REFLECTION JOURNAL -->
+        <section id="page-reflection" class="app-page flex-1 flex flex-col justify-between py-2 hidden max-w-2xl w-full mx-auto">
+            <div class="text-center mb-4">
+                <h2 class="text-xl font-heading font-semibold text-white">Refleksi Malam Hari</h2>
+                <p class="text-xs text-brand-textSecondary mt-1">Ambil napas dalam-dalam, luangkan waktu sejenak untuk evaluasi jujur.</p>
+            </div>
+
+            <!-- Form Multi-questions glass card -->
+            <div class="space-y-4 flex-grow overflow-y-auto max-h-[380px] pr-1 pb-4">
+                <!-- Mood selector -->
+                <div class="glass-card p-4">
+                    <span class="text-xs text-brand-textSecondary block mb-3 text-center">Bagaimana kualitas suasana hatimu (mood) hari ini?</span>
+                    <div class="flex justify-around items-center max-w-xs mx-auto">
+                        <button onclick="selectMood('happy')" id="mood-happy" class="mood-btn text-3xl p-2 rounded-full hover:bg-white/5 transition filter grayscale hover:grayscale-0">😊</button>
+                        <button onclick="selectMood('neutral')" id="mood-neutral" class="mood-btn text-3xl p-2 rounded-full hover:bg-white/5 transition filter grayscale hover:grayscale-0">😐</button>
+                        <button onclick="selectMood('sad')" id="mood-sad" class="mood-btn text-3xl p-2 rounded-full hover:bg-white/5 transition filter grayscale hover:grayscale-0">😞</button>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-brand-primary mb-2 uppercase tracking-wide">1. Apa yang berjalan baik hari ini?</label>
+                    <textarea id="ref-q1" rows="2" placeholder="Tuliskan pencapaian sekecil apapun..." class="w-full p-3 glass-input text-xs resize-none"></textarea>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-brand-accent mb-2 uppercase tracking-wide">2. Apa yang masih perlu diperbaiki?</label>
+                    <textarea id="ref-q2" rows="2" placeholder="Hal apa yang membuatmu kurang fokus..." class="w-full p-3 glass-input text-xs resize-none"></textarea>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-brand-secondary mb-2 uppercase tracking-wide">3. Apa target utama besok?</label>
+                    <textarea id="ref-q3" rows="2" placeholder="Komitmen sederhana untuk hari esok..." class="w-full p-3 glass-input text-xs resize-none"></textarea>
+                </div>
+            </div>
+
+            <div class="pt-4">
+                <button onclick="submitDailyReflection()" class="w-full py-4 bg-brand-primary hover:bg-brand-secondary text-brand-base font-semibold rounded-2xl transition shadow-lg flex items-center justify-center gap-2">
+                    <i class="fas fa-paper-plane text-xs"></i> Submit & Terima Analisis AI
+                </button>
+            </div>
+
+            <!-- Modal popup: AI Instant Reflection Result -->
+            <div id="ai-reflection-result-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+                <div class="w-full max-w-sm glass-card p-6 border-brand-accent/30 border max-h-[90vh] overflow-y-auto flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center gap-2 mb-3">
+                            <div class="w-2.5 h-2.5 rounded-full bg-brand-accent animate-pulse"></div>
+                            <h3 class="text-xs font-heading font-semibold text-brand-accent uppercase tracking-wider">Tanggapan Hangat AI Benahin Diri</h3>
+                        </div>
+                        <hr class="border-white/5 mb-4">
+                        <div id="ai-reflection-text" class="text-xs text-gray-200 font-ai italic leading-relaxed whitespace-pre-line mb-6">
+                            Menelaah jawaban refleksimu...
+                        </div>
+                    </div>
+                    <button onclick="closeReflectionModal()" class="w-full py-3 bg-brand-primary hover:bg-brand-secondary text-brand-base font-bold rounded-xl text-xs transition">
+                        Apresiasi Diri & Lanjutkan
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE 9: STATISTICS AND PROGRESS -->
+        <section id="page-progress" class="app-page flex-1 flex flex-col justify-between py-2 hidden max-w-4xl w-full mx-auto">
+            <div class="text-center mb-4">
+                <h2 class="text-xl font-heading font-semibold text-white">Statistik & Tingkatan</h2>
+                <p class="text-xs text-brand-textSecondary mt-1">Setiap hari kecil adalah bata penunjang masa depanmu.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 flex-grow overflow-y-auto pr-1 pb-4">
+                
+                <!-- Left Sub-Grid -->
+                <div class="space-y-4">
+                    <!-- Streak and Completion Cards -->
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="glass-card p-4 text-center border-l-4 border-l-brand-primary">
+                            <span class="text-2xl font-heading font-bold text-white block" id="prog-streak-val">0 Hari</span>
+                            <span class="text-[10px] text-brand-textSecondary">Siklus Beruntun</span>
+                        </div>
+                        <div class="glass-card p-4 text-center border-l-4 border-l-brand-accent">
+                            <span class="text-2xl font-heading font-bold text-white block" id="prog-completion-val">0%</span>
+                            <span class="text-[10px] text-brand-textSecondary">Penyelesaian Hari Ini</span>
+                        </div>
+                    </div>
+
+                    <!-- Levels Indicator -->
+                    <div class="glass-card p-4">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-xs text-brand-textSecondary">Tingkatan Saat Ini:</span>
+                            <span class="text-xs font-bold text-brand-accent" id="prog-level-text">🌱 Pemula</span>
+                        </div>
+                        
+                        <div class="w-full bg-white/5 h-2.5 rounded-full mb-2 overflow-hidden">
+                            <div id="prog-level-bar" class="bg-gradient-to-r from-brand-primary to-brand-secondary h-full transition-all duration-500" style="width: 15%"></div>
+                        </div>
+                        
+                        <div class="flex justify-between text-[8px] text-brand-textSecondary mt-1">
+                            <span>🌱 Pemula</span>
+                            <span>🌿 Bertumbuh</span>
+                            <span>🌳 Konsisten</span>
+                            <span>🏆 Disiplin</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Sub-Grid -->
+                <div class="space-y-4">
+                    <!-- Real-Time Weekly statistics representation -->
+                    <div class="glass-card p-4 h-full min-h-[220px]">
+                        <span class="text-[10px] text-brand-primary font-semibold uppercase tracking-wider block mb-3">Statistik Mingguan (Real-Time)</span>
+                        <div class="h-[140px] relative">
+                            <canvas id="weeklyBarChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <button onclick="navigateTo('aireview')" class="w-full py-4 bg-brand-primary hover:bg-brand-secondary text-brand-base font-semibold rounded-2xl transition shadow-lg mt-4 flex items-center justify-center gap-1">
+                Buka Ulasan Mingguan <i class="fas fa-chevron-right text-xs"></i>
+            </button>
+        </section>
+
+        <!-- PAGE 10: AI WEEKLY REVIEW -->
+        <section id="page-aireview" class="app-page flex-1 flex flex-col justify-between py-2 hidden max-w-2xl w-full mx-auto">
+            <div class="text-center mb-4">
+                <h2 class="text-xl font-heading font-semibold text-brand-accent">Ulasan Mingguan AI</h2>
+                <p class="text-xs text-brand-textSecondary mt-1">Ulasan mendalam tanpa rasa bersalah atas proses perubahanmu.</p>
+            </div>
+
+            <div class="space-y-4 flex-grow overflow-y-auto max-h-[380px] pr-1 pb-4">
+                <!-- AI Weekly Speech Bubble -->
+                <div class="glass-card p-5 border border-brand-accent/25 relative">
+                    <div class="flex items-center gap-2 mb-3 text-brand-accent">
+                        <i class="fas fa-sparkles animate-pulse"></i>
+                        <span class="text-xs font-semibold">Ulasan Hangat AI</span>
+                    </div>
+                    <p class="text-xs text-gray-100 font-ai leading-relaxed italic" id="aireview-content-text">
+                        "Minggu ini kamu cukup konsisten. Meskipun ada sedikit kelengahan di habit 'Kurangi Scroll', itu wajar. Fokus berikutnya adalah menjaga rutinitas sebelum tidur secara bertahap."
+                    </p>
+                </div>
+
+                <!-- Review details card -->
+                <div class="glass-card p-5 space-y-3">
+                    <div class="flex items-start gap-2.5">
+                        <div class="text-brand-primary text-xs mt-0.5"><i class="fas fa-chevron-up"></i></div>
+                        <div>
+                            <span class="text-xs font-semibold text-white block">Kekuatan (Strength)</span>
+                            <span class="text-[11px] text-brand-textSecondary leading-relaxed">Disiplin menjaga Sholat Tepat Waktu hampir mencapai 100%. Luar biasa!</span>
+                        </div>
+                    </div>
+                    <hr class="border-white/5">
+                    <div class="flex items-start gap-2.5">
+                        <div class="text-brand-error text-xs mt-0.5"><i class="fas fa-chevron-down"></i></div>
+                        <div>
+                            <span class="text-xs font-semibold text-white block">Kelemahan (Weakness)</span>
+                            <span class="text-[11px] text-brand-textSecondary leading-relaxed">Sering scroll hp di jam tidur, berimbas pada keterlambatan bangun pagi.</span>
+                        </div>
+                    </div>
+                    <hr class="border-white/5">
+                    <div class="flex items-start gap-2.5">
+                        <div class="text-brand-accent text-xs mt-0.5"><i class="fas fa-bullseye"></i></div>
+                        <div>
+                            <span class="text-xs font-semibold text-white block">Fokus Berikutnya</span>
+                            <span class="text-[11px] text-brand-textSecondary leading-relaxed">Coba jauhkan letak cas handphone dari jangkauan tempat tidur saat malam hari.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE 11: USER PROFILE -->
+        <section id="page-profile" class="app-page flex-1 flex flex-col justify-between py-2 hidden max-w-md w-full mx-auto">
+            <!-- Header profile -->
+            <div class="flex flex-col items-center text-center mt-4">
+                <div onclick="triggerProfilePicUpload()" class="w-24 h-24 bg-gradient-to-tr from-brand-primary to-brand-accent rounded-full p-1 mb-3 relative group cursor-pointer hover:scale-105 transition duration-300">
+                    <div class="w-full h-full bg-[#0a110e] rounded-full flex items-center justify-center overflow-hidden relative">
+                        <img id="profile-avatar-img" class="w-full h-full object-cover hidden" alt="Avatar">
+                        <i id="profile-avatar-placeholder" class="fas fa-user-astronaut text-brand-primary text-3xl"></i>
+                        <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center transition-opacity duration-300">
+                            <i class="fas fa-camera text-white text-sm mb-1"></i>
+                            <span class="text-[8px] text-white font-semibold">Ubah Foto</span>
+                        </div>
+                    </div>
+                    <span class="absolute bottom-0 right-0 w-6 h-6 bg-brand-primary rounded-full flex items-center justify-center text-[10px] text-brand-base border-2 border-[#070B09]">
+                        <i class="fas fa-leaf"></i>
+                    </span>
+                </div>
+                <input type="file" id="profile-pic-input" class="hidden" accept="image/*" onchange="handleProfilePicChange(event)">
+                <h3 class="text-lg font-heading font-semibold text-white" id="profile-name">Memuat...</h3>
+                <span class="text-xs font-semibold text-brand-accent bg-brand-accent/5 px-3 py-1 rounded-full border border-brand-accent/20 mt-1" id="profile-level-badge">🌱 Pemula (Level 1)</span>
+            </div>
+
+            <!-- Profile options menu -->
+            <div class="glass-card p-4 space-y-4 my-auto mt-6">
+                <div class="flex items-center justify-between gap-3">
+                    <span class="text-xs text-brand-textSecondary whitespace-nowrap">Target Utama 30 Hari:</span>
+                    <span class="text-xs text-white max-w-[200px] text-right truncate" id="profile-target-desc">Kurangi scroll malam hari & tidur teratur</span>
+                </div>
+                <hr class="border-white/5">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs text-brand-textSecondary">Notifikasi Pengingat</span>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" checked onchange="toggleNotifications()" class="sr-only peer">
+                        <div class="w-9 h-5 bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-brand-primary"></div>
+                    </label>
+                </div>
+                <hr class="border-white/5">
+                <button onclick="triggerResetProgram()" class="w-full text-left text-xs text-brand-accent flex items-center gap-2 hover:opacity-80 transition py-1">
+                    <i class="fas fa-redo-alt"></i> Reset Program
+                </button>
+                <hr class="border-white/5">
+                <button onclick="handleLogout()" class="w-full text-left text-xs text-brand-textSecondary flex items-center gap-2 hover:text-white transition py-1">
+                    <i class="fas fa-sign-out-alt"></i> Keluar Akun (Logout)
+                </button>
+            </div>
+
+            <!-- Dangerous Zone -->
+            <div class="glass-card p-4 border-red-500/20 border mt-6">
+                <button onclick="triggerDeleteAccount()" class="w-full text-center text-xs text-brand-error font-medium hover:opacity-80 transition flex items-center justify-center gap-2">
+                    <i class="fas fa-trash-alt"></i> Hapus Seluruh Riwayat Akun
+                </button>
+            </div>
+        </section>
+
+        <!-- BOTTOM NAVIGATION (Only shown for member dashboard flow) -->
+        <nav id="bottom-nav" class="glass-card mt-6 px-4 py-3 flex justify-between items-center hidden border-white/5 shadow-xl max-w-lg w-full mx-auto">
+            <button onclick="navigateTo('dashboard')" class="flex flex-col items-center gap-1 text-xs text-brand-textSecondary hover:text-white transition flex-1">
+                <i class="fas fa-compass text-base nav-icon" id="nav-dashboard"></i>
+                <span class="text-[9px]">Beranda</span>
+            </button>
+            <button onclick="navigateTo('habit')" class="flex flex-col items-center gap-1 text-xs text-brand-textSecondary hover:text-white transition flex-1">
+                <i class="fas fa-check-circle text-base nav-icon" id="nav-habit"></i>
+                <span class="text-[9px]">Habit</span>
+            </button>
+            <button onclick="navigateTo('reflection')" class="flex flex-col items-center gap-1 text-xs text-brand-textSecondary hover:text-white transition flex-1">
+                <i class="fas fa-pen-nib text-base nav-icon" id="nav-reflection"></i>
+                <span class="text-[9px]">Refleksi</span>
+            </button>
+            <button onclick="navigateTo('progress')" class="flex flex-col items-center gap-1 text-xs text-brand-textSecondary hover:text-white transition flex-1">
+                <i class="fas fa-chart-line text-base nav-icon" id="nav-progress"></i>
+                <span class="text-[9px]">Progres</span>
+            </button>
+            <button onclick="navigateTo('profile')" class="flex flex-col items-center gap-1 text-xs text-brand-textSecondary hover:text-white transition flex-1">
+                <i class="fas fa-user text-base nav-icon" id="nav-profile"></i>
+                <span class="text-[9px]">Profil</span>
+            </button>
+        </nav>
+
+    </main>
+
+    <script>
+        /* --------------------------------------------------
+         * STREAMING_CHUNK: GLOBAL APP STATE & PERSISTENCE
+         * -------------------------------------------------- */
+        
+        // Initializer block utilizing browser local storage to persist registered users and leads dynamically
+        let users = JSON.parse(localStorage.getItem('bdr_users')) || [];
+        let leads = JSON.parse(localStorage.getItem('bdr_leads')) || [];
+
+        let state = {
+            user: {
+                name: "Budi Pratama",
+                email: "",
+                role: "member", // member / admin
+                level: 1, 
+                target: "Kurangi scroll malam hari & tidur teratur",
+                focusAreas: [],
+                streak: 0,
+                currentDay: 1,
+                notifsEnabled: true,
+                onboarded: false,
+                avatar: null,
+                // Real-time weekly completion track: index 0 (Mon) to 6 (Sun)
+                completionHistory: [0, 0, 0, 0, 0, 0, 0]
+            },
+            habits: [
+                { id: 1, title: "Sholat Tepat Waktu", desc: "Membantu menenangkan hati dan menjaga keselarasan.", icon: "pray", checked: false },
+                { id: 2, title: "Tidur Sebelum Jam 22.30", desc: "Menjaga siklus tidur optimal untuk esok hari.", icon: "moon", checked: false },
+                { id: 3, title: "Kurangi Scroll Media Sosial", desc: "Maksimal 15 menit medsos setelah jam 20.00.", icon: "ban", checked: false }
+            ],
+            assessment: {
+                currentQuestion: 0,
+                scores: []
+            },
+            reflection: {
+                q1: "",
+                q2: "",
+                q3: "",
+                mood: "neutral"
+            },
+            editingHabitId: null,
+            leadsFilter: "All"
+        };
+
+        const assessmentQuestions = [
+            { cat: "Ibadah", q: "Seberapa konsisten kamu menjalankan ibadah harian tepat waktu?" },
+            { cat: "Disiplin", q: "Apakah kamu bisa menepati janji/jadwal yang kamu buat sendiri?" },
+            { cat: "Produktivitas", q: "Bagaimana fokus kerjamu tanpa terganggu oleh distraksi ponsel?" },
+            { cat: "Tidur", q: "Apakah kamu berhasil tidur sebelum jam 23.00 malam?" },
+            { cat: "Energi", q: "Bagaimana tingkat energimu saat baru terbangun di pagi hari?" },
+            { cat: "Emosi", q: "Seberapa baik kemampuanmu mengontrol emosi negatif hari ini?" },
+            { cat: "Kesehatan", q: "Apakah kamu meluangkan waktu minum air putih cukup & makan bersih?" },
+            { cat: "Mental", q: "Apakah kamu merasa damai & tenang dengan keputusan hidupmu saat ini?" },
+            { cat: "Ibadah", q: "Seberapa sering kamu melakukan refleksi spiritual/bacaan bermakna?" },
+            { cat: "Produktivitas", q: "Bagaimana tingkat penyelesaian tugas harianmu minggu ini?" }
+        ];
+
+        /* --------------------------------------------------
+         * STREAMING_CHUNK: INIT AND NAVIGATION CONTROLLERS
+         * -------------------------------------------------- */
+        window.onload = function() {
+            navigateTo('login'); 
+            
+            setTimeout(() => {
+                triggerOSNotification("20:30", "Jangan lupa isi progres kebiasaanmu hari ini.");
+            }, 6000);
+        };
+
+        function navigateTo(pageId) {
+            const pages = document.querySelectorAll('.app-page');
+            pages.forEach(p => p.classList.add('hidden'));
+
+            const targetPage = document.getElementById(`page-${pageId}`);
+            if (targetPage) {
+                targetPage.classList.remove('hidden');
+            }
+
+            const bottomNav = document.getElementById('bottom-nav');
+            const insideAppPages = ['dashboard', 'habit', 'reflection', 'progress', 'aireview', 'profile'];
+            
+            if (insideAppPages.includes(pageId) && state.user.role === 'member') {
+                bottomNav.classList.remove('hidden');
+                const navIcons = document.querySelectorAll('.nav-icon');
+                navIcons.forEach(icon => icon.classList.remove('active-nav'));
+                
+                const activeIcon = document.getElementById(`nav-${pageId}`);
+                if (activeIcon) {
+                    activeIcon.classList.add('active-nav');
+                }
+            } else {
+                bottomNav.classList.add('hidden');
+            }
+
+            if (pageId === 'dashboard') {
+                renderDashboardHabits();
+                updateDashboardProgress();
+            } else if (pageId === 'habit') {
+                renderHabitManagement();
+            } else if (pageId === 'progress') {
+                updateProgressPage();
+            } else if (pageId === 'admin') {
+                renderAdminLeads();
+                drawLeadsAcquisitionChart();
+                updateLeadsMetrics();
+            } else if (pageId === 'profile') {
+                loadUserProfile();
+            }
+        }
+
+        /* --------------------------------------------------
+         * STREAMING_CHUNK: USER PROFILE FUNCTIONS
+         * -------------------------------------------------- */
+        function loadUserProfile() {
+            document.getElementById('profile-name').innerText = state.user.name;
+            document.getElementById('profile-level-badge').innerText = `🌱 Pemula (Level ${state.user.level || 1})`;
+            document.getElementById('profile-target-desc').innerText = state.user.target || "Belum ditentukan";
+            
+            const avatarImg = document.getElementById('profile-avatar-img');
+            const placeholder = document.getElementById('profile-avatar-placeholder');
+            
+            if (state.user.avatar) {
+                avatarImg.src = state.user.avatar;
+                avatarImg.classList.remove('hidden');
+                placeholder.classList.add('hidden');
+            } else {
+                avatarImg.classList.add('hidden');
+                placeholder.classList.remove('hidden');
+            }
+        }
+
+        function triggerProfilePicUpload() {
+            document.getElementById('profile-pic-input').click();
+        }
+
+        function handleProfilePicChange(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const base64Image = e.target.result;
+                    state.user.avatar = base64Image;
+                    
+                    // Save dynamically to user local database
+                    let userIdx = users.findIndex(u => u.email.toLowerCase() === state.user.email.toLowerCase());
+                    if (userIdx > -1) {
+                        users[userIdx].avatar = base64Image;
+                        localStorage.setItem('bdr_users', JSON.stringify(users));
+                    }
+                    
+                    loadUserProfile();
+                    triggerNotification("Foto Diperbarui", "Foto profil Anda berhasil diganti.");
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        /* --------------------------------------------------
+         * STREAMING_CHUNK: AUTHENTICATION, RETRIEVAL & ROLE MATCH
+         * -------------------------------------------------- */
+        function toggleAccessCodeVisibility() {
+            const accessInput = document.getElementById('login-accesscode');
+            const eyeIcon = document.getElementById('toggle-eye-icon');
+            if (accessInput.type === 'password') {
+                accessInput.type = 'text';
+                eyeIcon.classList.remove('fa-eye-slash');
+                eyeIcon.classList.add('fa-eye');
+            } else {
+                accessInput.type = 'password';
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa-eye-slash');
+            }
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            const fullName = document.getElementById('login-fullname').value.trim();
+            const email = document.getElementById('login-email').value.trim();
+            const accessCode = document.getElementById('login-accesscode').value.trim();
+
+            const MEMBER_CODE = "BDR-START24";
+            const ADMIN_CODE = "BDR-ADMIN24";
+
+            // Normalisasi kode akses
+            const cleanInput = accessCode.replace(/\s+/g, '').toUpperCase();
+            const cleanMember = MEMBER_CODE.replace(/\s+/g, '').toUpperCase();
+            const cleanAdmin = ADMIN_CODE.replace(/\s+/g, '').toUpperCase();
+
+            if (cleanInput === cleanMember) {
+                // Cari apakah email sudah pernah terdaftar di LocalStorage
+                let existingUser = users.find(u => u.email.toLowerCase() === email.toLowerCase());
+
+                if (existingUser) {
+                    // Jika user sudah terdaftar
+                    state.user = existingUser;
+                    if (existingUser.habits && existingUser.habits.length > 0) {
+                        state.habits = existingUser.habits;
+                    }
+                    
+                    triggerNotification("Selamat Datang Kembali", `Halo ${existingUser.name}, senang melihatmu berproses lagi.`);
+                    
+                    // Jika sudah pernah Onboarded, lompat langsung ke Dashboard
+                    if (existingUser.onboarded) {
+                        navigateTo('dashboard');
+                    } else {
+                        navigateTo('onboarding');
+                    }
+                } else {
+                    // Pendaftar Baru (New User & New Lead)
+                    let newUser = {
+                        name: fullName,
+                        email: email,
+                        role: 'member',
+                        level: 1,
+                        target: "Kurangi scroll malam hari & tidur teratur",
+                        focusAreas: [],
+                        streak: 0,
+                        currentDay: 1,
+                        notifsEnabled: true,
+                        onboarded: false,
+                        habits: [...state.habits],
+                        completionHistory: [0, 0, 0, 0, 0, 0, 0]
+                    };
+
+                    // Simpan ke array users lokal & LocalStorage
+                    users.push(newUser);
+                    localStorage.setItem('bdr_users', JSON.stringify(users));
+
+                    // Masukkan ke Leads Admin secara Real-Time
+                    let newLead = {
+                        id: Date.now(),
+                        name: fullName,
+                        email: email,
+                        phone: "-",
+                        channel: "Direct Web",
+                        focus: "Mencari fokus",
+                        status: "New",
+                        date: "Baru saja"
+                    };
+                    leads.unshift(newLead);
+                    localStorage.setItem('bdr_leads', JSON.stringify(leads));
+
+                    state.user = newUser;
+                    triggerNotification("Akun Terdaftar", "Selamat datang! Mari mulai proses onboarding pertamamu.");
+                    navigateTo('onboarding');
+                }
+
+            } else if (cleanInput === cleanAdmin) {
+                state.user.name = fullName || "Admin Pemasaran";
+                state.user.email = email;
+                state.user.role = 'admin';
+                
+                triggerNotification("Akses Admin", "Masuk ke panel monitoring prospek.");
+                navigateTo('admin');
+            } else {
+                triggerNotification("Akses Ditolak", "Kode akses tidak ditemukan. Periksa kembali atau hubungi penyelenggara.");
+            }
+        }
+
+        function handleLogout() {
+            triggerNotification("Sesi Berakhir", "Keluar berhasil. Sampai jumpa kembali.");
+            document.getElementById('login-fullname').value = "";
+            document.getElementById('login-email').value = "";
+            document.getElementById('login-accesscode').value = "";
+            navigateTo('login');
+        }
+
+        /* --------------------------------------------------
+         * STREAMING_CHUNK: ADMIN DASHBOARD REAL-TIME CONTROLS
+         * -------------------------------------------------- */
+        let leadsChartInstance = null;
+
+        function updateLeadsMetrics() {
+            const totalLeads = leads.length;
+            const convertedLeads = leads.filter(l => l.status === "Converted").length;
+            const pendingLeads = leads.filter(l => l.status === "New").length;
+            const conversionRate = totalLeads > 0 ? ((convertedLeads / totalLeads) * 100).toFixed(1) : 0;
+
+            document.getElementById('admin-total-leads').innerText = totalLeads;
+            document.getElementById('admin-conversion-rate').innerText = `${conversionRate}%`;
+            document.getElementById('admin-pending-leads').innerText = pendingLeads;
+            document.getElementById('leads-count-badge').innerText = totalLeads;
+        }
+
+        function drawLeadsAcquisitionChart() {
+            const ctx = document.getElementById('leadsAcquisitionChart').getContext('2d');
+            if (leadsChartInstance) {
+                leadsChartInstance.destroy();
+            }
+
+            // Real-time grouping based on current leads array
+            const sources = { Instagram: 0, TikTok: 0, Google: 0, "Direct Web": 0 };
+            leads.forEach(l => {
+                const source = l.channel || "Direct Web";
+                if (sources[source] !== undefined) {
+                    sources[source]++;
+                } else {
+                    sources[source] = 1;
+                }
+            });
+
+            leadsChartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Direct Web', 'Instagram', 'TikTok', 'Google'],
+                    datasets: [{
+                        data: [sources["Direct Web"], sources.Instagram, sources.TikTok, sources.Google],
+                        backgroundColor: ['#39B37D', '#5AC08D', '#D9B77C', 'rgba(255,255,255,0.15)'],
+                        borderColor: '#070B09',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                color: '#B3B8B6',
+                                font: { size: 9, family: 'Inter' },
+                                boxWidth: 10
+                            }
+                        }
+                    },
+                    cutout: '65%'
+                }
+            });
+        }
+
+        function renderAdminLeads() {
+            const container = document.getElementById('admin-leads-container');
+            container.innerHTML = "";
+
+            const searchQuery = document.getElementById('leads-search-input').value.toLowerCase();
+
+            const filteredLeads = leads.filter(l => {
+                const matchesSearch = l.name.toLowerCase().includes(searchQuery) || l.email.toLowerCase().includes(searchQuery);
+                const matchesFilter = state.leadsFilter === "All" || l.status === state.leadsFilter;
+                return matchesSearch && matchesFilter;
+            });
+
+            if (filteredLeads.length === 0) {
+                container.innerHTML = `
+                    <div class="p-6 text-center text-xs text-brand-textSecondary/60 italic">
+                        Tidak ada data prospek ditemukan.
+                    </div>
+                `;
+                return;
+            }
+
+            filteredLeads.forEach(lead => {
+                let badgeColor = "bg-brand-primary/20 text-brand-primary";
+
+                container.innerHTML += `
+                    <div class="bg-white/5 p-4 rounded-xl border border-white/5 flex flex-col gap-2 transition hover:border-brand-primary/20">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <span class="text-xs font-semibold text-white block">${lead.name}</span>
+                                <span class="text-[10px] text-brand-textSecondary block">${lead.email}</span>
+                            </div>
+                            <span class="text-[9px] font-bold px-2 py-0.5 rounded ${badgeColor}">Aktif</span>
+                        </div>
+                        
+                        <div class="flex justify-between items-center text-[10px] text-brand-textSecondary/80 pt-1">
+                            <span>Fokus Target: <strong class="text-white">${lead.focus}</strong></span>
+                            <span class="text-[9px]">${lead.date}</span>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function setLeadsFilter(filterName) {
+            state.leadsFilter = filterName;
+            
+            const filters = ['all', 'new', 'contacted', 'converted'];
+            filters.forEach(f => {
+                const btn = document.getElementById(`btn-filter-${f}`);
+                if (f === filterName.toLowerCase()) {
+                    btn.className = "text-[10px] px-3 py-1.5 rounded-full bg-brand-primary/20 text-brand-primary border border-brand-primary/30 font-medium whitespace-nowrap";
+                } else {
+                    btn.className = "text-[10px] px-3 py-1.5 rounded-full bg-white/5 text-brand-textSecondary border border-white/5 font-medium whitespace-nowrap";
+                }
+            });
+
+            renderAdminLeads();
+        }
+
+        function filterAdminLeads() {
+            renderAdminLeads();
+        }
+
+        /* --------------------------------------------------
+         * STREAMING_CHUNK: ONBOARDING FLOW MANAGEMENT
+         * -------------------------------------------------- */
+        function nextOnboardingStep(stepNum) {
+            document.getElementById('onboarding-step-1').classList.add('hidden');
+            document.getElementById('onboarding-step-2').classList.add('hidden');
+            document.getElementById('onboarding-step-3').classList.add('hidden');
+
+            document.getElementById(`onboarding-step-${stepNum}`).classList.remove('hidden');
+        }
+
+        function toggleOnboardingFocus(focusArea) {
+            const index = state.user.focusAreas.indexOf(focusArea);
+            const btn = document.getElementById(`focus-${focusArea}`);
+            
+            if (index > -1) {
+                state.user.focusAreas.splice(index, 1);
+                btn.style.borderColor = "rgba(255,255,255,0.08)";
+                btn.style.background = "rgba(255, 255, 255, 0.05)";
+            } else {
+                if (state.user.focusAreas.length >= 2) {
+                    triggerNotification("Maksimal Fokus", "Pilih maksimal 2 fokus untuk menjaga konsistensi awal.");
+                    return;
+                }
+                state.user.focusAreas.push(focusArea);
+                btn.style.borderColor = "#39B37D";
+                btn.style.background = "rgba(57,179,125,0.08)";
+            }
+        }
+
+        function submitOnboardingFocus() {
+            if (state.user.focusAreas.length === 0) {
+                triggerNotification("Perhatian", "Pilih setidaknya 1 area fokus.");
+                return;
+            }
+
+            // Sync ke Leads Admin secara Real-Time
+            let userLead = leads.find(l => l.email.toLowerCase() === state.user.email.toLowerCase());
+            if (userLead) {
+                userLead.focus = state.user.focusAreas.join(", ");
+                localStorage.setItem('bdr_leads', JSON.stringify(leads));
+            }
+
+            nextOnboardingStep(3);
+        }
+
+        function submitOnboardingTarget() {
+            const val = document.getElementById('onboarding-goal-text').value;
+            if (val.trim() !== "") {
+                state.user.target = val;
+                document.getElementById('profile-target-desc').innerText = val;
+            }
+            navigateTo('assessment');
+            startAssessment();
+        }
+
+        /* --------------------------------------------------
+         * STREAMING_CHUNK: ASSESSMENT LOGIC & RADAR CHARTING
+         * -------------------------------------------------- */
+        function startAssessment() {
+            state.assessment.currentQuestion = 0;
+            state.assessment.scores = [];
+            loadAssessQuestion();
+        }
+
+        function loadAssessQuestion() {
+            const qIndex = state.assessment.currentQuestion;
+            const qData = assessmentQuestions[qIndex];
+            
+            document.getElementById('assess-cat').innerText = `KATEGORI: ${qData.cat}`;
+            document.getElementById('assess-progress').innerText = `Pertanyaan ${qIndex + 1} dari 10`;
+            document.getElementById('assess-bar').style.width = `${(qIndex + 1) * 10}%`;
+            document.getElementById('assess-question-text').innerText = qData.q;
+            
+            document.getElementById('assess-range').value = 5;
+            updateAssessScoreLabel(5);
+
+            const prevBtn = document.getElementById('assess-prev-btn');
+            if (qIndex === 0) {
+                prevBtn.setAttribute('disabled', 'true');
+            } else {
+                prevBtn.removeAttribute('disabled');
+            }
+        }
+
+        function updateAssessScoreLabel(val) {
+            document.getElementById('assess-score-val').innerText = val;
+            let desc = "Sedang / Kadang-kadang";
+            if (val <= 3) desc = "Sangat jarang / Perlu diperbaiki";
+            else if (val >= 8) desc = "Sangat konsisten / Sangat disiplin";
+            document.getElementById('assess-score-desc').innerText = desc;
+        }
+
+        function prevAssessQuestion() {
+            if (state.assessment.currentQuestion > 0) {
+                state.assessment.currentQuestion--;
+                loadAssessQuestion();
+            }
+        }
+
+        function nextAssessQuestion() {
+            const val = parseInt(document.getElementById('assess-range').value);
+            state.assessment.scores[state.assessment.currentQuestion] = val;
+
+            if (state.assessment.currentQuestion < 9) {
+                state.assessment.currentQuestion++;
+                loadAssessQuestion();
+            } else {
+                showAssessmentResults();
+            }
+        }
+
+        function showAssessmentResults() {
+            document.getElementById('assessment-quiz').classList.add('hidden');
+            document.getElementById('assessment-result').classList.remove('hidden');
+
+            const sum = state.assessment.scores.reduce((a, b) => a + b, 0);
+            document.getElementById('assess-final-score').innerText = `${sum * 10}/100`;
+
+            drawRadarChart();
+            generateAssessmentAIInsight(state.assessment.scores);
+        }
+
+        function drawRadarChart() {
+            const ctx = document.getElementById('radarChart').getContext('2d');
+            
+            const scores = state.assessment.scores;
+            const ibadahAvg = ((scores[0] || 5) + (scores[8] || 5)) / 2;
+            const disiplinAvg = scores[1] || 5;
+            const prodAvg = ((scores[2] || 5) + (scores[9] || 5)) / 2;
+            const tidurAvg = scores[3] || 5;
+            const emosiAvg = scores[5] || 5;
+
+            new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: ['Ibadah', 'Disiplin', 'Produktivitas', 'Tidur', 'Emosi'],
+                    datasets: [{
+                        label: 'Skor Kesiapan',
+                        data: [ibadahAvg, disiplinAvg, prodAvg, tidurAvg, emosiAvg],
+                        backgroundColor: 'rgba(57, 179, 125, 0.25)',
+                        borderColor: '#39B37D',
+                        borderWidth: 2,
+                        pointBackgroundColor: '#D9B77C',
+                        pointBorderColor: '#FFF'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        r: {
+                            grid: { color: 'rgba(255, 255, 255, 0.08)' },
+                            angleLines: { color: 'rgba(255, 255, 255, 0.08)' },
+                            pointLabels: { color: '#B3B8B6', font: { size: 9, family: 'Inter' } },
+                            ticks: { display: false, max: 10, min: 0 }
+                        }
+                    }
+                }
+            });
+        }
+
+        /* --------------------------------------------------
+         * STREAMING_CHUNK: LOCAL GENERATIVE ENGINE (FALLBACK ON OFFLINE)
+         * -------------------------------------------------- */
+        function generateAssessmentAIInsight(scores) {
+            const element = document.getElementById('assess-ai-insight');
+            element.innerHTML = `<span class="animate-pulse">Merenungkan hasil kuesionermu...</span>`;
+
+            setTimeout(() => {
+                const fallbackInsight = "Langkah awalmu luar biasa. Kamu menunjukkan fondasi kesadaran diri yang stabil. Fokus utama pengembangan jiwamu saat ini adalah merapikan kualitas tidur dan meredam distraksi malam hari.";
+                typeEffect(element, fallbackInsight);
+            }, 1000);
+        }
+
+        function typeEffect(element, text) {
+            element.innerHTML = "";
+            let i = 0;
+            element.classList.add('ai-cursor');
+            
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, 15);
+                } else {
+                    element.classList.remove('ai-cursor');
+                }
+            }
+            type();
+        }
+
+        /* --------------------------------------------------
+         * STREAMING_CHUNK: AI HABIT GENERATION
+         * -------------------------------------------------- */
+        function generateAIHabits() {
+            navigateTo('habit-generator');
+            
+            const statusText = document.getElementById('generator-status-text');
+            statusText.innerText = "Mengatur rincian kebiasaan paling ideal untukmu...";
+
+            setTimeout(() => {
+                state.habits = [
+                    { id: 1, title: "Sholat Tepat Waktu", desc: "Menenangkan gejolak pikiran dan melatih kepatuhan waktu harian.", icon: "pray", checked: false },
+                    { id: 2, title: "Tidur Sebelum Jam 22.30", desc: "Memulihkan kebugaran selaras dengan ritme sirkadian alam.", icon: "moon", checked: false },
+                    { id: 3, title: "Kurangi Scroll Media Sosial", desc: "Maksimal 15 menit medsos setelah jam 20.00 malam.", icon: "ban", checked: false }
+                ];
+
+                document.getElementById('habit-gen-title-0').innerText = state.habits[0].title;
+                document.getElementById('habit-gen-desc-0').innerText = state.habits[0].desc;
+                document.getElementById('habit-gen-title-1').innerText = state.habits[1].title;
+                document.getElementById('habit-gen-desc-1').innerText = state.habits[1].desc;
+                document.getElementById('habit-gen-title-2').innerText = state.habits[2].title;
+                document.getElementById('habit-gen-desc-2').innerText = state.habits[2].desc;
+
+                document.getElementById('ai-habit-loading-container').classList.add('hidden');
+                document.getElementById('ai-habits-list-container').classList.remove('hidden');
+                
+                const acceptBtn = document.getElementById('btn-accept-habits');
+                acceptBtn.removeAttribute('disabled');
+                acceptBtn.classList.remove('opacity-50');
+
+            }, 2000);
+        }
+
+        function acceptAIHabitsAndGoToDashboard() {
+            // Update status onboarded ke true
+            state.user.onboarded = true;
+            state.user.habits = [...state.habits];
+
+            // Simpan status final ke LocalStorage
+            let userIdx = users.findIndex(u => u.email.toLowerCase() === state.user.email.toLowerCase());
+            if (userIdx > -1) {
+                users[userIdx] = state.user;
+                localStorage.setItem('bdr_users', JSON.stringify(users));
+            }
+
+            triggerNotification("Perjalanan Dimulai", "Selamat! Hari pertama perubahan bertahapmu resmi dimulai.");
+            navigateTo('dashboard');
+        }
+
+        /* --------------------------------------------------
+         * STREAMING_CHUNK: MEMBER DASHBOARD RENDERING
+         * -------------------------------------------------- */
+        function renderDashboardHabits() {
+            const listContainer = document.getElementById('dash-habit-list');
+            listContainer.innerHTML = "";
+            
+            document.getElementById('dash-user-name').innerText = state.user.name;
+            document.getElementById('dash-streak').innerText = state.user.streak;
+            document.getElementById('dash-day-num').innerText = state.user.currentDay;
+
+            if (state.habits.length === 0) {
+                listContainer.innerHTML = `
+                    <div class="glass-card p-6 text-center border-white/5 border">
+                        <p class="text-xs text-brand-textSecondary mb-4">Belum ada kebiasaan aktif saat ini.</p>
+                        <button onclick="navigateTo('habit')" class="py-2.5 px-4 bg-brand-primary hover:bg-brand-secondary text-brand-base font-bold rounded-xl text-xs transition">
+                            Buat Habit Baru
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            state.habits.forEach(habit => {
+                const checkedClass = habit.checked ? "checked bg-brand-primary/5" : "";
+                const isCheckedAttr = habit.checked ? "checked" : "";
+                
+                let iconClass = "fa-calendar-check";
+                if (habit.icon === "pray") iconClass = "fa-pray";
+                else if (habit.icon === "moon") iconClass = "fa-moon";
+                else if (habit.icon === "book") iconClass = "fa-book-reader";
+                else if (habit.icon === "heartbeat") iconClass = "fa-heartbeat";
+                else if (habit.icon === "ban") iconClass = "fa-ban";
+
+                listContainer.innerHTML += `
+                    <div class="habit-container glass-card p-4 flex items-center justify-between border border-white/5 ${checkedClass}" id="dash-habit-${habit.id}">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-2xl bg-white/5 flex items-center justify-center text-sm text-brand-accent">
+                                <i class="fas ${iconClass}"></i>
+                            </div>
+                            <div>
+                                <span class="text-xs font-semibold text-white block">${habit.title}</span>
+                                <span class="text-[10px] text-brand-textSecondary block mt-0.5">${habit.desc}</span>
+                            </div>
+                        </div>
+                        <label class="relative flex items-center justify-center w-7 h-7 rounded-full bg-white/5 border border-white/10 cursor-pointer hover:border-brand-primary/50 transition">
+                            <input type="checkbox" ${isCheckedAttr} onchange="toggleHabit(${habit.id})" class="accent-brand-primary opacity-0 absolute inset-0 cursor-pointer">
+                            <div class="checkmark-icon text-brand-primary text-xs ${habit.checked ? 'block' : 'hidden'}">
+                                <i class="fas fa-check"></i>
+                            </div>
+                        </label>
+                    </div>
+                `;
+            });
+        }
+
+        function toggleHabit(habitId) {
+            const habit = state.habits.find(h => h.id === habitId);
+            if (habit) {
+                habit.checked = !habit.checked;
+                
+                // Update LocalStorage agar tersimpan permanen
+                let userIdx = users.findIndex(u => u.email.toLowerCase() === state.user.email.toLowerCase());
+                if (userIdx > -1) {
+                    users[userIdx].habits = state.habits;
+                    localStorage.setItem('bdr_users', JSON.stringify(users));
+                }
+
+                const container = document.getElementById(`dash-habit-${habitId}`);
+                if (container) {
+                    if (habit.checked) {
+                        container.classList.add('checked', 'bg-brand-primary/5');
+                        container.querySelector('.checkmark-icon').classList.remove('hidden');
+                        
+                        container.style.boxShadow = "0 0 15px rgba(57, 179, 125, 0.25)";
+                        setTimeout(() => { container.style.boxShadow = ""; }, 400);
+                    } else {
+                        container.classList.remove('checked', 'bg-brand-primary/5');
+                        container.querySelector('.checkmark-icon').classList.add('hidden');
+                    }
+                }
+                
+                updateDashboardProgress();
+            }
+        }
+
+        function updateDashboardProgress() {
+            const total = state.habits.length;
+            if (total === 0) return;
+
+            const checkedCount = state.habits.filter(h => h.checked).length;
+            const pct = Math.round((checkedCount / total) * 100);
+
+            document.getElementById('dash-percentage-text').innerText = `${pct}% Selesai`;
+            document.getElementById('dash-ring-percent').innerText = `${pct}%`;
+
+            const circle = document.getElementById('progress-circle-svg');
+            const offset = 163 - (163 * pct) / 100;
+            circle.style.strokeDashoffset = offset;
+
+            // Track actual progress in real-time inside user's dynamic weekly track
+            let todayIndex = (new Date().getDay() + 6) % 7; // Monday = 0, Sunday = 6
+            if (!state.user.completionHistory) {
+                state.user.completionHistory = [0, 0, 0, 0, 0, 0, 0];
+            }
+            state.user.completionHistory[todayIndex] = pct;
+
+            // Save to LocalStorage
+            let userIdx = users.findIndex(u => u.email.toLowerCase() === state.user.email.toLowerCase());
+            if (userIdx > -1) {
+                users[userIdx].completionHistory = state.user.completionHistory;
+                localStorage.setItem('bdr_users', JSON.stringify(users));
+            }
+
+            if (pct === 100) {
+                triggerNotification("Luar Biasa!", "Kamu menyelesaikan semua target kebiasaanmu hari ini.");
+                state.user.streak++;
+                document.getElementById('dash-streak').innerText = state.user.streak;
+
+                if (userIdx > -1) {
+                    users[userIdx].streak = state.user.streak;
+                    localStorage.setItem('bdr_users', JSON.stringify(users));
+                }
+            }
+        }
+
+        /* --------------------------------------------------
+         * STREAMING_CHUNK: HABIT CONFIGURATOR (ADD/EDIT/DEL)
+         * -------------------------------------------------- */
+        function renderHabitManagement() {
+            const container = document.getElementById('habit-management-list');
+            container.innerHTML = "";
+
+            if (state.habits.length === 0) {
+                container.innerHTML = `
+                    <div class="glass-card p-6 text-center border-white/5 border">
+                        <p class="text-xs text-brand-textSecondary mb-4">Tidak ada habit aktif.</p>
+                        <button onclick="openAddHabitModal()" class="py-2.5 px-4 bg-brand-primary hover:bg-brand-secondary text-brand-base font-bold rounded-xl text-xs transition">
+                            Tambah Habit Baru
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            state.habits.forEach(habit => {
+                let iconClass = "fa-calendar-check";
+                if (habit.icon === "pray") iconClass = "fa-pray";
+                else if (habit.icon === "moon") iconClass = "fa-moon";
+                else if (habit.icon === "book") iconClass = "fa-book-reader";
+                else if (habit.icon === "heartbeat") iconClass = "fa-heartbeat";
+                else if (habit.icon === "ban") iconClass = "fa-ban";
+
+                container.innerHTML += `
+                    <div class="glass-card p-4 flex items-center justify-between border border-white/5 hover:border-brand-primary/20 transition">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-brand-accent">
+                                <i class="fas ${iconClass}"></i>
+                            </div>
+                            <div>
+                                <span class="text-xs font-semibold text-white block">${habit.title}</span>
+                                <span class="text-[10px] text-brand-textSecondary block mt-0.5">${habit.desc}</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="openEditHabitModal(${habit.id})" class="p-2 text-brand-textSecondary hover:text-white hover:bg-white/5 rounded-lg transition">
+                                <i class="fas fa-edit text-xs"></i>
+                            </button>
+                            <button onclick="deleteHabit(${habit.id})" class="p-2 text-brand-error/70 hover:text-brand-error hover:bg-white/5 rounded-lg transition">
+                                <i class="fas fa-trash text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        let selectedIconForForm = "pray";
+
+        function openAddHabitModal() {
+            state.editingHabitId = null;
+            document.getElementById('habit-modal-title').innerText = "Tambah Kebiasaan Baru";
+            document.getElementById('habit-form-title').value = "";
+            document.getElementById('habit-form-desc').value = "";
+            selectFormIcon('pray');
+            document.getElementById('habit-modal').classList.remove('hidden');
+        }
+
+        function openEditHabitModal(habitId) {
+            const habit = state.habits.find(h => h.id === habitId);
+            if (habit) {
+                state.editingHabitId = habitId;
+                document.getElementById('habit-modal-title').innerText = "Ubah Kebiasaan";
+                document.getElementById('habit-form-title').value = habit.title;
+                document.getElementById('habit-form-desc').value = habit.desc;
+                selectFormIcon(habit.icon);
+                document.getElementById('habit-modal').classList.remove('hidden');
+            }
+        }
+
+        function closeHabitModal() {
+            document.getElementById('habit-modal').classList.add('hidden');
+        }
+
+        function selectFormIcon(iconName) {
+            selectedIconForForm = iconName;
+            const buttons = document.querySelectorAll('.icon-opt-btn');
+            buttons.forEach(btn => {
+                btn.style.borderColor = "rgba(255,255,255,0.05)";
+                btn.style.backgroundColor = "rgba(255,255,255,0.05)";
+            });
+
+            const activeBtn = document.getElementById(`icon-${iconName}`);
+            if (activeBtn) {
+                activeBtn.style.borderColor = "#39B37D";
+                activeBtn.style.backgroundColor = "rgba(57,179,125,0.15)";
+            }
+        }
+
+        function submitHabitForm() {
+            const title = document.getElementById('habit-form-title').value;
+            const desc = document.getElementById('habit-form-desc').value;
+
+            if (title.trim() === "") {
+                triggerNotification("Perhatian", "Tulis nama kebiasaan terlebih dahulu.");
+                return;
+            }
+
+            if (state.editingHabitId === null) {
+                const newId = state.habits.length > 0 ? Math.max(...state.habits.map(h => h.id)) + 1 : 1;
+                state.habits.push({
+                    id: newId,
+                    title: title,
+                    desc: desc || "Langkah kecil menuju konsistensi.",
+                    icon: selectedIconForForm,
+                    checked: false
+                });
+                triggerNotification("Berhasil", "Kebiasaan baru ditambahkan.");
+            } else {
+                const habit = state.habits.find(h => h.id === state.editingHabitId);
+                if (habit) {
+                    habit.title = title;
+                    habit.desc = desc || "Langkah kecil menuju konsistensi.";
+                    habit.icon = selectedIconForForm;
+                    triggerNotification("Berhasil", "Kebiasaan diperbarui.");
+                }
+            }
+
+            // Sync ke LocalStorage
+            let userIdx = users.findIndex(u => u.email.toLowerCase() === state.user.email.toLowerCase());
+            if (userIdx > -1) {
+                users[userIdx].habits = state.habits;
+                localStorage.setItem('bdr_users', JSON.stringify(users));
+            }
+
+            closeHabitModal();
+            renderHabitManagement();
+        }
+
+        function deleteHabit(habitId) {
+            state.habits = state.habits.filter(h => h.id !== habitId);
+            
+            let userIdx = users.findIndex(u => u.email.toLowerCase() === state.user.email.toLowerCase());
+            if (userIdx > -1) {
+                users[userIdx].habits = state.habits;
+                localStorage.setItem('bdr_users', JSON.stringify(users));
+            }
+
+            triggerNotification("Dihapus", "Kebiasaan telah dibersihkan.");
+            renderHabitManagement();
+        }
+
+        function saveHabitChanges() {
+            triggerNotification("Disimpan", "Perubahan tersimpan.");
+            navigateTo('dashboard');
+        }
+
+        /* --------------------------------------------------
+         * STREAMING_CHUNK: DAILY REFLECTION JOURNAL CONTROLLER
+         * -------------------------------------------------- */
+        let selectedMood = "neutral";
+
+        function selectMood(mood) {
+            selectedMood = mood;
+            const buttons = document.querySelectorAll('.mood-btn');
+            buttons.forEach(btn => btn.classList.add('grayscale'));
+
+            const activeBtn = document.getElementById(`mood-${mood}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('grayscale');
+            }
+        }
+
+        function submitDailyReflection() {
+            const q1 = document.getElementById('ref-q1').value;
+            const q2 = document.getElementById('ref-q2').value;
+            const q3 = document.getElementById('ref-q3').value;
+
+            if (q1.trim() === "" || q2.trim() === "") {
+                triggerNotification("Perhatian", "Isi minimal pertanyaan 1 & 2 untuk analisis AI.");
+                return;
+            }
+
+            const feedbackModal = document.getElementById('ai-reflection-result-modal');
+            const feedbackText = document.getElementById('ai-reflection-text');
+            
+            feedbackText.innerHTML = `<span class="animate-pulse">Menelaah ketulusan refleksimu...</span>`;
+            feedbackModal.classList.remove('hidden');
+
+            setTimeout(() => {
+                const fallbackFeedback = "Hari ini kamu berproses luar biasa dengan jujur mengakui keterbatasanmu. Setiap kejatuhan kecil adalah pupuk untuk bangkit esok hari. Istirahatkan pikiranmu malam ini.";
+                typeEffect(feedbackText, fallbackFeedback);
+            }, 1200);
+
+            document.getElementById('ref-q1').value = "";
+            document.getElementById('ref-q2').value = "";
+            document.getElementById('ref-q3').value = "";
+        }
+
+        function closeReflectionModal() {
+            document.getElementById('ai-reflection-result-modal').classList.add('hidden');
+            navigateTo('dashboard');
+        }
+
+        /* --------------------------------------------------
+         * STREAMING_CHUNK: PROGRESS PAGE STATS
+         * -------------------------------------------------- */
+        let progressChartInstance = null;
+
+        function updateProgressPage() {
+            document.getElementById('prog-streak-val').innerText = `${state.user.streak} Hari`;
+            
+            const total = state.habits.length;
+            const completed = state.habits.filter(h => h.checked).length;
+            const dailyPct = total > 0 ? Math.round((completed / total) * 100) : 0;
+            
+            let levelStr = "🌱 Pemula";
+            let barWidth = "15%";
+            
+            if (state.user.streak >= 7) {
+                levelStr = "🏆 Disiplin";
+                barWidth = "95%";
+                state.user.level = 4;
+            } else if (state.user.streak >= 5) {
+                levelStr = "🌳 Konsisten";
+                barWidth = "70%";
+                state.user.level = 3;
+            } else if (state.user.streak >= 2) {
+                levelStr = "🌿 Bertumbuh";
+                barWidth = "45%";
+                state.user.level = 2;
+            }
+            
+            document.getElementById('prog-level-text').innerText = levelStr;
+            document.getElementById('prog-level-bar').style.width = barWidth;
+            document.getElementById('prog-completion-val').innerText = `${dailyPct}%`;
+
+            drawWeeklyChart();
+        }
+
+        function drawWeeklyChart() {
+            const ctx = document.getElementById('weeklyBarChart').getContext('2d');
+            
+            if (progressChartInstance) {
+                progressChartInstance.destroy();
+            }
+
+            // Real-time weekly performance dataset from active habits checks
+            const realTimeCompletion = state.user.completionHistory || [0, 0, 0, 0, 0, 0, 0];
+
+            progressChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'],
+                    datasets: [{
+                        label: 'Persentase Selesai',
+                        data: realTimeCompletion,
+                        backgroundColor: 'rgba(57, 179, 125, 0.45)',
+                        borderColor: '#39B37D',
+                        borderWidth: 1.5,
+                        borderRadius: 8,
+                        hoverBackgroundColor: '#5AC08D'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: {
+                            grid: { color: 'rgba(255,255,255,0.04)' },
+                            ticks: { 
+                                color: '#B3B8B6', 
+                                font: { size: 9 }, 
+                                callback: function(value) { return value + "%"; } 
+                            },
+                            max: 100,
+                            min: 0
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: '#B3B8B6', font: { size: 9 } }
+                        }
+                    }
+                }
+            });
+        }
+
+        /* --------------------------------------------------
+         * PROFILE SETTINGS CONTROLLERS
+         * -------------------------------------------------- */
+        function toggleNotifications() {
+            state.user.notifsEnabled = !state.user.notifsEnabled;
+            const status = state.user.notifsEnabled ? "diaktifkan" : "dimatikan";
+            triggerNotification("Pengingat Diubah", `Notifikasi harian telah ${status}.`);
+        }
+
+        function triggerResetProgram() {
+            triggerNotification("Program Direset", "Mengembalikan kemajuan harian ke hari pertama.");
+            state.user.streak = 0;
+            state.user.currentDay = 1;
+            state.habits.forEach(h => h.checked = false);
+            state.user.completionHistory = [0, 0, 0, 0, 0, 0, 0];
+
+            let userIdx = users.findIndex(u => u.email.toLowerCase() === state.user.email.toLowerCase());
+            if (userIdx > -1) {
+                users[userIdx].streak = 0;
+                users[userIdx].habits = state.habits;
+                users[userIdx].completionHistory = [0, 0, 0, 0, 0, 0, 0];
+                localStorage.setItem('bdr_users', JSON.stringify(users));
+            }
+
+            navigateTo('dashboard');
+        }
+
+        function triggerDeleteAccount() {
+            // Hapus dari data lokal peramban
+            users = users.filter(u => u.email.toLowerCase() !== state.user.email.toLowerCase());
+            leads = leads.filter(l => l.email.toLowerCase() !== state.user.email.toLowerCase());
+            localStorage.setItem('bdr_users', JSON.stringify(users));
+            localStorage.setItem('bdr_leads', JSON.stringify(leads));
+
+            triggerNotification("Akun Dihapus", "Seluruh data riwayat Anda telah dibersihkan sepenuhnya.");
+            navigateTo('login');
+        }
+
+        /* --------------------------------------------------
+         * VISUAL NOTIFICATION FEEDBACKS
+         * -------------------------------------------------- */
+        function triggerNotification(title, message) {
+            const modal = document.getElementById('notification-modal');
+            document.getElementById('notif-title').innerText = title.toUpperCase();
+            document.getElementById('notif-message').innerText = message;
+            
+            modal.classList.remove('hidden');
+            setTimeout(() => { closeNotification(); }, 3000);
+        }
+
+        function closeNotification() {
+            document.getElementById('notification-modal').classList.add('hidden');
+        }
+
+        function triggerOSNotification(time, text) {
+            const box = document.getElementById('os-notif');
+            document.getElementById('os-notif-time').innerText = time;
+            document.getElementById('os-notif-body').innerText = text;
+            box.classList.remove('hidden');
+
+            setTimeout(() => {
+                dismissOSNotif();
+            }, 3000);
+        }
+
+        function dismissOSNotif() {
+            document.getElementById('os-notif').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
